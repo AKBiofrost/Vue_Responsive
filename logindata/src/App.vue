@@ -146,8 +146,7 @@
           
 
             <v-list-item-content>
-              <v-list-item-title> Usuario Ejemplo</v-list-item-title>
-              <v-list-item-subtitle>numero de contrato</v-list-item-subtitle>
+              <v-list-item-title> {{NombreUsers}}</v-list-item-title>
             </v-list-item-content>
 
             <v-list-item-action>
@@ -263,7 +262,25 @@
     </v-menu>
   </div>
 
+<template v-slot:extension>
+        <v-tabs
+          v-model="tab"
+          align-with-title
+          background-color="transparent"
+          grow
+         
+        >
+          <v-tabs-slider ></v-tabs-slider>
 
+          <v-tab
+          color="#107192"
+            v-for="item in items"
+            :key="item"
+          >
+           {{item}}
+          </v-tab>
+        </v-tabs>
+      </template>
 
 
 
@@ -273,36 +290,80 @@
 </v-app-bar>
 
 
+
+
+ 
+
+
+
   
   </v-card>
-
-
-
-
-  
-
-
-
     <v-main>
       <router-view/>
-    </v-main>
-  </v-app>
+
+ <v-tabs-items 
   
+ v-model="tab">
+     <v-card
+     
+      color="azul"
+
+     >
+      <v-tab-item>
+       
+         <PositividadPais></PositividadPais>
+
+
+        
+      </v-tab-item>
+
+
+<v-tab-item>
+       
+         <PositividadEtiqueta></PositividadEtiqueta>
+
+
+        
+      </v-tab-item>
+
+      <v-tab-item
+       
+      >
+       
+<SERP></SERP>
+
+        
+      </v-tab-item>
+
+
+     </v-card>  
+    </v-tabs-items>
+    </v-main>
+  </v-app> 
 </template>
 
 <script>
 import axios from "axios"; 
+import PositividadPais from '@/components/testPositividadPais.vue'
+import PositividadEtiqueta from '@/components/testPositividadEtiqueta.vue'
+import SERP from '@/components/testPosicionamientoSERP.vue'
 
 export default {
   name: 'App',
 
   data: () => ({
     //
-
+      NombreUsers: null, 
     fav: true,
       menu: false,
       message: false,
       hints: true,
+
+        tab: null,
+        items: [
+          'Positividad por Pais', 'Positividad por Etiqueta', 'Posicionamiento SERP', 'Alertas', 'Detractores','Otra opcion ','Otra opcion ','Otra opcion ','Otra opcion '
+        ],
+       
   }),
 
 
@@ -336,6 +397,13 @@ var matriz=await axios.get(`https://cool-shockley.142-44-201-186.plesk.page/cont
 console.log("ACCESO A FOTO Y NOMBRE DEL USUARIO")
 
 console.log(matriz)
+
+//----------------------------------//
+
+this.NombreUsers=matriz.data.usr_name
+
+
+
 },
 
 scrollToTop() {
@@ -351,7 +419,12 @@ scrollToTop() {
 
 
 
-}
+},
+ components: {
+    PositividadPais,
+    PositividadEtiqueta,
+    SERP
+  },
 
 
 };
@@ -359,3 +432,13 @@ scrollToTop() {
 
 
 </script>
+
+<style>
+/* Helper classes */
+.azul {
+  background-color: #107192 !important;
+}
+.basil--text {
+  color: #356859 !important;
+}
+</style>
